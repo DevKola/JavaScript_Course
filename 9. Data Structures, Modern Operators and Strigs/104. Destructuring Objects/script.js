@@ -25,7 +25,27 @@ const resturant = {
   order: function (starterIndex, mainIndex) {
     return [this.starterMenu[starterIndex], this.mainMenu[mainIndex]];
   },
+
+  orderDelivery: function ({ starterIndex = 1, mainIndex = 0, time = "20:30", address }) {
+    console.log(
+      `Order recieved! ${this.starterMenu[starterIndex]} and  ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+    );
+  },
 };
+
+// Practical Application of destructuring/ this automatically does destructuring
+// creating an object through the use of function. Basically passing an object as the arguments for a method/function created inside an object
+resturant.orderDelivery({
+  time: "22:30",
+  address: "Via del Sole, 21",
+  mainIndex: 2,
+  starterIndex: 2,
+});
+
+resturant.orderDelivery({
+  address: "Via del Sole, 21",
+  starterIndex: 1
+});
 
 // To destructure objects, we use the curly braces
 const { name, openingHours, categories } = resturant;
@@ -39,7 +59,6 @@ const {
 } = resturant;
 console.log(resturantName, openingTime, tags);
 
-
 // Default values
 // Incase we are trying to read a property that does not exist
 const { menu = [], starterMenu: starter = [], busy: time = {} } = resturant;
@@ -52,3 +71,9 @@ let b = 999;
 const obj = { a: 23, b: 7, c: 14 };
 ({ a, b } = obj);
 console.log(a, b);
+
+// Nested Objects
+const {
+  fri: { open: openTime, close: closingTime },
+} = openingHours;
+console.log(openTime, closingTime);
