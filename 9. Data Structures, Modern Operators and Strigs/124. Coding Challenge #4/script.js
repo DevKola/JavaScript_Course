@@ -29,15 +29,6 @@ Afterwards, test with your own test data!
 GOOD LUCK 😀
 */
 
-// const toCamelCase = function (text) {
-//   const textSplit = text.split("_");
-//   const first = textSplit.shift().toLowerCase();
-//   const last = textSplit.shift().toLowerCase();
-//   const lastToCamel = last[0].toUpperCase() + last.slice(1);
-
-//   textSplit.push(first, lastToCamel);
-//   return textSplit.join("");
-// };
 
 document.body.append(document.createElement("textarea"));
 document.body.append(document.createElement("button"));
@@ -47,14 +38,10 @@ document.querySelector("button").addEventListener("click", function () {
   const rows = text.split("\n");
   console.log(rows);
 
-  for (const row of rows) {
-    row.split("_");
-    const first = row.shift().toLowerCase().trim();
-    const last = row.shift().toLowerCase().trim();
-    const lastToCamel = last[0].toUpperCase() + last.slice(1);
-    const word = `${first}${lastToCamel}`;
-    
-    console.log(word);
+  for (const [i, row] of rows.entries()) {
+    const [first, second] = row.toLowerCase().trim().split("_");
+    const output = `${first}${second.replace(second[0], second[0].toUpperCase())}`;
+    console.log(`${output.padEnd(20, " ")}${"✅".repeat(i + 1)}`);
   }
 
 });

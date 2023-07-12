@@ -3,7 +3,6 @@
 // In ES6 new ways we can now compute propery name instead of writting them out
 const weekdays = ["mon", "tues", "wed", "thur", "fri", "sat", "sun"];
 
-
 const openingHours = {
   [weekdays[3]]: {
     open: 12,
@@ -50,13 +49,12 @@ const resturant = {
     console.log(mainIngredients);
     console.log(otherIngredients);
   },
-
 };
-
 
 // Optional Chaining: this is a new feature of Objects and Arrays
 // without optional chaining
-if (resturant.openingHours && resturant.openingHours.mon) console.log(resturant.openingHours.mon.open);
+if (resturant.openingHours && resturant.openingHours.mon)
+  console.log(resturant.openingHours.mon.open);
 
 // with optional chaining: only if the property before the ? exists will the ones after it be read, but if not the immediately undefined will be returned
 console.log(resturant.openingHours.mon?.open);
@@ -64,26 +62,25 @@ console.log(resturant.openingHours.mon?.open);
 // we can also have multiple optional cahining
 console.log(resturant.openingHours?.mon?.open);
 
-
-// Example 
+// Example
 const days = ["mon", "tues", "wed", "thur", "fri", "sat", "sun"];
 
 for (const day of days) {
   const open = resturant.openingHours[day]?.open ?? "close";
   console.log(`On ${day}, we are open at ${open}`);
-};
-
+}
 
 //Optional chaining on methods: we can check if a method exist before we call it
 console.log(resturant.order?.(0, 1) ?? "The method does not exist");
 console.log(resturant.orderRositto?.(0, 1) ?? "The method does not exist");
 
 // Using it to check if an array is empty
-const user = [{
-  name: "jonas",
-  email: "hello@jonas.io"
-}]
+const user = [
+  {
+    name: "jonas",
+    email: "hello@jonas.io",
+  },
+  
+];
 
 console.log(user[0]?.name ?? "User array empty");
-
-

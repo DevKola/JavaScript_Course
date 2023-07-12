@@ -56,7 +56,7 @@ const resturant = {
 
 console.log("----OR---");
 // what is  short circuiting?
-// with the or (||) operator: This means that is the first value is a truthy value, it will automatically return a true. if you have multiple cahin of operations, the first truthy value will be returned and the rest will be skipped.
+// with the or (||) operator: This means that is the first value is a truthy value, it will automatically return a true. if you have multiple chain of operations, the first truthy value will be returned and the rest will be skipped.
 console.log(3 || "jonas");
 console.log("" || "jonas");
 console.log(true || 0);

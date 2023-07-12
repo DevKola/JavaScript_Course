@@ -46,12 +46,12 @@ const resturant = {
 const arr = [7, 8, 9];
 
 const newArr = [1, 2, ...arr];
-console.log(newArr);
-console.log(...newArr);
+// console.log(newArr);
+// console.log(...newArr);
 
 // Using the spread operator to create a new arra containing elements in other arrays and new elements all at once.
 const newMenu = [...resturant.mainMenu, "Gnocci"];
-console.log(newMenu);
+// console.log(newMenu);
 
 // the spread operator takes all the elements from the array and doesn't create new variables, we can only use it in place where values are seprated by commas
 
@@ -61,7 +61,7 @@ const mainMenuCopy = [...resturant.mainMenu];
 
 // Join two arrays or more
 const menu = [...resturant.starterMenu, ...resturant.mainMenu, ...newArr, ...newMenu];
-console.log(menu);
+// console.log(menu);
 
 // the spread operators also works on all iterables. What are iterables?
 // theys are: arrays, strings, sets or maps, but not objects. the most built in data structures in arrays are iterables execept objects
@@ -69,32 +69,30 @@ console.log(menu);
 // On strings this will return an array of the string's letter. Note: we can only use spread operator when building an array or when we pass value into a function
 const str = "Kolade";
 const letters = [...str, " ", "S."];
-console.log(letters);
+// console.log(letters);
 
 
 // A function that accepts multiple arguments and the use the spread operator to pass those arguments
 const ingredients = [
-  // prompt("Let's make pasta! Ingredients 1?"),
-  // prompt("Ingredient 2?"),
-  // prompt("Ingredient 3?")
+ "Mushrooms", "Cheese", "Onions"
 ];
 
 console.log(ingredients);
 
 // Calling the function now without spread operator
-resturant.orderPasta(ingredients[0], ingredients[1], ingredients[2]);
+// resturant.orderPasta(ingredients[0], ingredients[1], ingredients[2]);
 
 // calling the function with spread operator
 resturant.orderPasta(...ingredients);
 
-// the spread operator also works on objects from ES20 ecen though objects are not iterables
+// the spread operator also works on objects from ES20 even though objects are not iterables
 // Objects
 const newResturant = { foundedIn: 1998, ...resturant, founder: "Guiseppe" };
-console.log(newResturant);
+// console.log(newResturant);
 
 const resturantCopy = { ...resturant };
 resturantCopy.name = "Ristorante Roma";
 
-console.log(resturant.name);
-console.log(resturantCopy.name);
+// console.log(resturant.name);
+// console.log(resturantCopy.name);
 

@@ -60,7 +60,7 @@ const arr = [1, 2, ...[4, 5]];
 
 // REST,  because on the left side of =
 const [a, b, ...other] = [1, 2, 3, 4, 5];
-console.log(a, b, other);
+// console.log(a, b, other);
 
 // the rest pattern does not select the skipped element, so the rest pattern must always be the last in the assignment and there can only be one rest in any destructuring assingment
 const [pizza, risotto, ...others] = [...resturant.mainMenu, ...resturant.starterMenu];
@@ -70,16 +70,16 @@ console.log(pizza, risotto, others);
 
 // Objects: in this case, everything will be collected inside an object
 const { sat, ...weekdays } = resturant.openingHours;
-console.log(weekdays);
+// console.log(weekdays);
 
 
 // 2.) Functions : this is a use case of providing multiple arguments for a function and generating an array from them using the rest pattern.
 
 const add = function (...nums) {
-  console.log(nums);
+  // console.log(nums);
   let sum = 0;
   for (let i = 0; i < nums.length; i++) sum += nums[i];
-  console.log(sum);
+  // console.log(sum);
 }
 
 add(2, 3);
