@@ -61,10 +61,12 @@ const inputLoanAmount = document.querySelector(".form__input--loan-amount");
 const inputCloseUsername = document.querySelector(".form__input--user");
 const inputClosePin = document.querySelector(".form__input--pin");
 
-const displayMovements = function (movement) {
+const displayMovements = function (movement, sort = true) {
   containerMovements.innerHTML = "";
 
-  movement.forEach((mov, i) => {
+  const movs = sort ? movement.slice().sort((a, b) => a - b) : movement;
+
+  movs.forEach((mov, i) => {
     const type = mov > 0 ? "deposit" : "withdrawal";
 
     const html = `
@@ -80,12 +82,35 @@ const displayMovements = function (movement) {
   });
 };
 
-displayMovements(account1.movements);
+// Displaying balance
+const calcDisplayBalance = function (acc) {
+  acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${acc.balance}€`;
+};
+
+// Display Deposits
+const calcDisplayDeposits = function (acc) {
+  const incomes = acc.movements
+    .filter((mov) => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumIn.textContent = `${incomes}€`;
+
+  const out = acc.movements
+    .filter((mov) => mov < 0)
+    .reduce((acc, cur) => acc + cur, 0);
+  labelSumOut.textContent = `${Math.abs(out)}€`;
+
+  const interest = acc.movements
+    .filter((mov) => mov > 0)
+    .map((mov) => (acc.interestRate / 100) * mov)
+    .filter((mov) => mov >= 1)
+    .reduce((acc, mov) => acc + mov, 0);
+  labelSumInterest.textContent = `${interest}€`;
+};
 
 // Computing  for the App
-
 const createUsername = function (accts) {
-  accts.forEach(acct => {
+  accts.forEach((acct) => {
     acct.username = acct.owner
       .toLowerCase()
       .split(" ")
@@ -95,9 +120,121 @@ const createUsername = function (accts) {
 };
 
 createUsername(accounts);
-console.log(accounts);
-console.log(account1);
 
+const updateUI = function (acc) {
+  // Displaying Movements
+  displayMovements(acc.movements);
+
+  // Display Account
+  calcDisplayBalance(acc);
+
+  //Display Summary
+  calcDisplayDeposits(acc);
+};
+
+// Implementing the Login
+let currentAccount;
+btnLogin.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  currentAccount = accounts.find(
+    (el) => el.username === inputLoginUsername.value
+  );
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and Mssage
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(" ")[0]
+    }`;
+    containerApp.style.opacity = 100;
+
+    // Clear input fields
+    inputLoginUsername.value = inputLoginPin.value = "";
+    inputLoginPin.blur();
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+});
+
+//Implementing Transfer money to Another User
+btnTransfer.addEventListener("click", function (e) {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value);
+  const receiverAcc = accounts.find(
+    (el) => el.username === inputTransferTo.value
+  );
+
+  inputTransferTo.value = inputTransferAmount.value = "";
+
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
+    currentAccount.movements.push(-amount);
+    receiverAcc?.movements.push(amount);
+  }
+
+  // Update UI
+  updateUI(currentAccount);
+});
+
+// Implementing the Loan
+btnLoan.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    currentAccount.movements.some((mov) => mov >= amount * 0.1)
+  ) {
+    // Add Movements
+    currentAccount.movements.push(amount);
+
+    // Update UI
+    updateUI(currentAccount);
+  }
+
+  inputLoanAmount.value = "";
+});
+
+// Closing Account
+btnClose.addEventListener("click", function (e) {
+  e.preventDefault();
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      (acc) => acc.username === currentAccount.username
+    );
+
+    // Deleting acount
+    accounts.splice(index, 1);
+
+    // Reset UI
+    containerApp.style.opacity = 0;
+  }
+
+  inputCloseUsername.value = inputClosePin.value = "";
+});
+
+let sorted = false;
+btnSort.addEventListener("click", function (e) {
+  e.preventDefault();
+  displayMovements(currentAccount.movements, !sorted);
+  sorted = !sorted;
+});
+
+// Converting a dom element to an array
+labelBalance.addEventListener("click", function () {
+  const movementsUI = Array.from(document.querySelectorAll(".movements__value"), el => Number(el.textContent.replace("€", "")));
+
+  console.log(movementsUI);
+});
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
